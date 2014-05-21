@@ -30,7 +30,7 @@ end
 class EvilHenchmen < ActiveRecord::Base
   has_many :minions, class_name: "EvilHenchmen", foreign_key: :overlord_id
   belongs_to :overlord, class_name: "EvilHenchmen"
-  has_many :evil_plots, foreign_key: :overlord_id
+  has_many :hatched_evil_plots, class_name: "EvilPlot", foreign_key: :overlord_id
   has_many :evil_plot_attendances
   has_many :evil_plots_being_carried_out, through: :evil_plot_attendances, source: :evil_plot
 end
@@ -58,13 +58,13 @@ saruman.minions << uruk_hai
 
 bind_them_all = EvilPlot.create(codename: "pretty_glitter", description: "Corrupt them all to my will")
 
-sauron.evil_plots << bind_them_all
+sauron.hatched_evil_plots << bind_them_all
 
 bind_them_all.minions << saruman
 
 sauron.minions
 saruman.overlord
-sauron.evil_plots
+sauron.hatched_evil_plots
 bind_them_all.overlord
 
 binding.pry
