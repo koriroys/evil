@@ -9,25 +9,16 @@ ActiveSupport::LogSubscriber.colorize_logging = false
 ActiveRecord::Schema.define do
   self.verbose = false
 
-  create_table :users do |t|
+  create_table :evil_henchmen do |t|
     t.string :name
-  end
-
-  create_table :posts do |t|
-    t.string :name
-    t.integer :user_id
+    t.string :weapon
   end
 end
 
-class User < ActiveRecord::Base
-  has_many :posts
+class EvilHenchmen < ActiveRecord::Base
+
 end
 
-class Post < ActiveRecord::Base
-  belongs_to :user
-end
-
-user = User.create! name: 'Josh'
-user.posts = [Post.new(name: 'yo ho ho'), Post.new(name: 'and a bottle of rum')]
+sauron = EvilHenchmen.create!(name: "Sauron", weapon: "Mace")
 
 binding.pry
