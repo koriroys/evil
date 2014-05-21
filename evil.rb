@@ -18,18 +18,19 @@ ActiveRecord::Schema.define do
   create_table :evil_plots do |t|
     t.string :codename
     t.string :description
-    t.integer :evil_henchmen_id
+    t.integer :overlord_id
   end
 end
 
 class EvilHenchmen < ActiveRecord::Base
   has_many :minions, class_name: "EvilHenchmen", foreign_key: :overlord_id
   belongs_to :overlord, class_name: "EvilHenchmen"
-  has_many :evil_plots
+  has_many :evil_plots, foreign_key: :overlord_id
 end
 
 class EvilPlot < ActiveRecord::Base
-  belongs_to :evil_henchmen
+  belongs_to :overlord, class_name: "EvilHenchmen"
+  # has_many :minions
 end
 
 sauron = EvilHenchmen.create!(name: "Sauron", weapon: "Mace")
@@ -49,6 +50,6 @@ sauron.evil_plots << bind_them_all
 sauron.minions
 saruman.overlord
 sauron.evil_plots
-bind_them_all.evil_henchmen
+bind_them_all.overlord
 
 binding.pry
