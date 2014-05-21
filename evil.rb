@@ -13,12 +13,29 @@ ActiveRecord::Schema.define do
     t.string :name
     t.string :weapon
   end
+
+  create_table :minions do |t|
+    t.string :name
+    t.string :weapon
+    t.integer :evil_henchmen_id
+  end
 end
 
 class EvilHenchmen < ActiveRecord::Base
+  has_many :minions
+end
 
+class Minion < ActiveRecord::Base
+  belongs_to :evil_henchmen
 end
 
 sauron = EvilHenchmen.create!(name: "Sauron", weapon: "Mace")
+
+saruman = Minion.create!(name: "Saruman", weapon: "Magic")
+
+sauron.minions << saruman
+
+sauron.minions
+saruman.evil_henchmen
 
 binding.pry
