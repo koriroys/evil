@@ -17,16 +17,16 @@ ActiveRecord::Schema.define do
   create_table :minions do |t|
     t.string :name
     t.string :weapon
-    t.integer :evil_henchmen_id
+    t.integer :overlord_id
   end
 end
 
 class EvilHenchmen < ActiveRecord::Base
-  has_many :minions
+  has_many :minions, foreign_key: :overlord_id
 end
 
 class Minion < ActiveRecord::Base
-  belongs_to :evil_henchmen
+  belongs_to :overlord, class_name: "EvilHenchmen"
 end
 
 sauron = EvilHenchmen.create!(name: "Sauron", weapon: "Mace")
@@ -36,6 +36,6 @@ saruman = Minion.create!(name: "Saruman", weapon: "Magic")
 sauron.minions << saruman
 
 sauron.minions
-saruman.evil_henchmen
+saruman.overlord
 
 binding.pry
